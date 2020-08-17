@@ -38,24 +38,24 @@ but please note - it has our own opinionated Linting and Typescript by default: 
 
 # RUNNING INSTRUCTION
 
-I used POSTGRES as my database
-SETUP THOSE ENV VARIABLES BEFORE START
-    PGUSER=postgres
-    PGHOST=localhost
-    PGPASSWORD=password
-    PGDATABASE=stolen_bikes_db
-    PGPORT=5432
-*Those values are just an example
+- I used POSTGRES as my database
+- SETUP THOSE ENV VARIABLES BEFORE START
+- PGUSER=postgres
+- PGHOST=localhost
+- PGPASSWORD=password
+- PGDATABASE=stolen_bikes_db
+- PGPORT=5432
+- *Those values are just an example
 
-run: "npm install" to install all necessary packages
-run: "npm run build" to compile the project
-run: "npm start" it should start a local server on localhost:3000
+- run: "npm install" to install all necessary packages
+- run: "npm run build" to compile the project
+- run: "npm start" it should start a local server on localhost:3000
 
-access "localhost:3000" in your browser, you should see a swaggger documentation
+- access "localhost:3000" in your browser, you should see a swaggger documentation
 
-You should be able to interact direct with swagger
+- You should be able to interact direct with swagger
 
-*Obs: unfortunatelly I couldn't let the sqlite config right on time, so "npm test" wont work yet
+- *Obs: unfortunatelly I couldn't let the sqlite config right on time, so "npm test" wont work yet
 
 
 
