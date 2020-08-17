@@ -1,0 +1,309 @@
+---
+swagger: "2.0"
+info:
+  description: "Report Manager API"
+  version: "1.0.0"
+  title: "Report Manager API"
+host: "localhost:3000"
+basePath: "/"
+schemes:
+- "http"
+- "https"
+produces:
+- "application/json"
+paths:
+  /report:
+    x-controller: "reportController"
+    get:
+      tags:
+        - "Report"
+      summary: "get report"
+      description: "get report"
+      operationId: "getReport"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: false
+      responses:
+        200:
+          description: array of reports
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Report"
+        404:
+          $ref: "#/responses/NotFound"  
+        500:
+          $ref: "#/responses/UnexpectedError"
+    post:
+      tags:
+        - "Report"
+      summary: "create report"
+      description: "create report"
+      operationId: "createReport"
+      parameters:
+        - name: report
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              userId:
+                type: string                
+      
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/Report"
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /report/list:
+    x-controller: "reportController"
+    get:
+      tags:
+        - "Report"
+      summary: "get report list"
+      description: "get report list"
+      operationId: "getReportList"
+      parameters:
+        - name: policeId
+          in: query
+          type: string
+          required: false
+        - name: state
+          type: string
+          enum: [UNASSIGNED, ASSIGNED, RESOLVED]
+          in: query
+        - name: userId
+          in: query
+          type: string
+          required: false
+      responses:
+        200:
+          description: array of reports
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Report"
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /report/status:
+    x-controller: "reportController"
+    post:
+      tags:
+        - "Report"
+      summary: "resolve report"
+      description: "resolve report"
+      operationId: "resolveReport"
+      parameters:
+        - name: report
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              reportId:
+                type: number
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/Report"
+        500:
+          $ref: "#/responses/UnexpectedError"
+          
+  /police:
+    x-controller: "policeController"
+    post:
+      tags:
+        - "Police"
+      summary: "creates a new police officer"
+      description: "creates a new police officer"
+      operationId: "createPolice"
+      parameters:
+        - name: police
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/Police"
+        500:
+          $ref: "#/responses/UnexpectedError"
+    get:
+      tags:
+        - "Police"
+      summary: "get police"
+      description: "get police"
+      operationId: "getPolice"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: Police
+          schema:
+            $ref: "#/definitions/Police"
+        404:
+          $ref: "#/responses/NotFound"  
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /police/list:
+    x-controller: "policeController"
+    get:
+      tags:
+        - "Police"
+      summary: "get Police List"
+      description: "Get Police List"
+      operationId: "getPoliceList"
+      parameters:
+        - name: state
+          type: string
+          enum: [FREE, BUSY]
+          in: query
+      responses:
+        200:
+          description: array of polices
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Police"
+        500:
+          $ref: "#/responses/UnexpectedError"
+
+  /user:
+    x-controller: "userController"
+    get:
+      tags:
+        - "User"
+      summary: "get user"
+      description: "get user"
+      operationId: "getUser"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+      responses:
+        200:
+          description: Police
+          schema:
+            $ref: "#/definitions/Police"
+        404:
+          $ref: "#/responses/NotFound"  
+        500:
+          $ref: "#/responses/UnexpectedError"    
+    post:
+      tags:
+        - "User"
+      summary: "creates a new a user"
+      description: "creates a new user"
+      operationId: "createUser"
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+      responses:
+        200:
+          description: "Successful"
+          schema:
+            $ref: "#/definitions/User"          
+        500:
+          $ref: "#/responses/UnexpectedError"
+  /user/list:
+    x-controller: "userController"
+    get:
+      tags:
+        - "User"
+      summary: "get user list"
+      description: "get user list"
+      operationId: "getUserList"
+      responses:
+        200:
+          description: Police
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+        500:
+          $ref: "#/responses/UnexpectedError"  
+
+# define reusable parameters:
+responses:
+  UnexpectedError:
+    description: "Unexpected error"
+    schema:
+      $ref: "#/definitions/Error"
+  NotFound:
+    description: "not found"
+    schema:
+      $ref: "#/definitions/Error"
+
+definitions:
+  Report:
+    type: object
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      state:
+        type: string
+        enum: [UNSSIGNED, ASSIGNED, "RESOLVED"]
+      userId:
+        type: string
+      userName:
+        type: string        
+      policeId:
+        type: string
+      policeName:
+        type: string
+      createAt:
+        type: string
+      assignedAt:
+        type: string
+      solvedAt:
+        type: string
+  Police:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      state:
+        type: string
+        enum: [free, busy]
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+  Error:
+    type: "object"
+    properties:
+      message:
+        type: "string"
